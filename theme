@@ -1,0 +1,69 @@
+#!/usr/bin/env bb
+
+(ns theme
+  ;; # vi: ft=clojure
+  ;;
+  ;; # Paste in your .bashrc/.zshrc
+  ;; # Change to your color presets
+  ;; # ITERM2_DARK_PRESET='OneHalfDark'
+  ;; # ITERM2_LIGHT_PRESET='OneHalfLight'
+  ;; #
+  ;; # theme=`defaults read -g AppleInterfaceStyle` &>/dev/null
+  ;; #
+  ;; # if [ "$theme" = 'Dark' ] ; then
+  ;; #   theme='dark'
+  ;; # else
+  ;; #   theme='light'
+  ;; # fi
+  ;; #
+  ;; # if [ "$theme" = 'dark' ] ; then
+  ;; #   echo -e "\033]1337;SetColors=preset=$ITERM2_DARK_PRESET\a"
+  ;; # else
+  ;; #   echo -e "\033]1337;SetColors=preset=$ITERM2_LIGHT_PRESET\a"
+  ;; # fi
+  ;; preset=$1
+  ;; echo -e "\033]1337;SetColors=preset=$preset\a"
+
+  ;; # echo -e "\033]1337;SetColors=preset=gruvbox-dark\a"
+  (:require [clojure.java.shell :refer [sh]]))
+
+(def lookup
+  {"nord" {:vim-theme-name "nord"
+           :iterm2-preset-name "nord"
+           :bat-theme "Nord"}
+   "solarized light" {:vim-theme-name "solarized8_flat"
+                      :iterm2-preset-name "Solarized Light"}
+   "terafox" {:vim-theme-name "terafox"
+              :iterm2-preset-name "terafox"}
+   "nightfox" {:vim-theme-name "nightfox"
+               :iterm2-preset-name "nightfox_iterm"}
+   "gruvbox" {:vim-theme-name "gruvbox"
+              :iterm2-preset-name "gruvbox-dark"}})
+
+(defn echo-ctrlseq
+  #_(echo-ctrlseq "nord")
+  #_(echo-ctrlseq "gruvbox-dark")
+  [preset]
+  ;; Bare iterm2
+  ;; echo -e "\033]1337;SetColors=preset=gruvbox-dark\a"
+  #_(sh "echo" "-e" (str "\033]1337;SetColors=preset=" preset bell))
+  ;; Local tmux passthru (also works with bare iterm2)
+  ;; printf "\ePtmux;\e\e]1337;SetColors=preset=gruvbox-dark\a\e\\"
+  ;; echo -e "\033Ptmux;\033\033]1337;SetColors=preset=gruvbox-dark\007\033\\"
+  (sh "echo" "-e" (str "\033Ptmux;\033\033]1337;SetColors=preset=" preset "\007\033\\")))
+
+(defn update-nvim-theme
+  #_(update-nvim-theme "gruvbox")
+  #_(update-nvim-theme "nord")
+  [colorscheme]
+  ;; nvr -c 'colorscheme gruvbox'
+  ;; nvr --remote-send ':colorscheme nord<cr>'
+  (sh "nvr" "-c" (str "colorscheme " colorscheme)))
+
+(defn -main
+  [s]
+  (let [{:keys [vim-theme-name iterm2-preset-name] :as x} (lookup s)]
+    (update-nvim-theme vim-theme-name)
+    (echo-ctrlseq iterm2-preset-name)))
+
+(-main (first *command-line-args*))
