@@ -1,7 +1,24 @@
 #!/usr/bin/env bb
 
+;; # vi: ft=clojure
+
 (ns theme
-  ;; # vi: ft=clojure
+  ;; Okay, since it's looking like you can't export a new variable,
+  ;; you might try the restart everything route, but programmatically.
+  ;;
+  ;; Use a file to store the current VIM_COLOR
+  ;;
+  ;; Use vim autocommand groups to tailor colorscheme settings
+  ;;
+  ;; If you set an env variable you'll need to ensure it works
+  ;; across all shells in your tmux session
+  ;; https://stackoverflow.com/questions/20701757/tmux-setting-environment-variables-for-sessions
+  ;;
+  ;; maybe consider:
+  ;; https://git.iamthefij.com/vividboarder/shoestrap/src/commit/c14d7341378414cc7081616ec13065a94b4ff78e/assets/default/bin/get_vim_colorscheme.sh
+  ;; together with:
+  ;; https://git.iamthefij.com/vividboarder/shoestrap/src/commit/c14d7341378414cc7081616ec13065a94b4ff78e/assets/default/dotfiles/bash_profile#L73
+  ;;
   ;;
   ;; # Paste in your .bashrc/.zshrc
   ;; # Change to your color presets
@@ -25,20 +42,11 @@
   ;; echo -e "\033]1337;SetColors=preset=$preset\a"
 
   ;; # echo -e "\033]1337;SetColors=preset=gruvbox-dark\a"
-  (:require [clojure.java.shell :refer [sh]]))
+  (:require [clojure.java.shell :refer [sh]]
+            [clojure.edn :as edn]
+            [babashka.fs :as fs]))
 
-(def lookup
-  {"nord" {:vim-theme-name "nord"
-           :iterm2-preset-name "nord"
-           :bat-theme "Nord"}
-   "solarized light" {:vim-theme-name "solarized8_flat"
-                      :iterm2-preset-name "Solarized Light"}
-   "terafox" {:vim-theme-name "terafox"
-              :iterm2-preset-name "terafox"}
-   "nightfox" {:vim-theme-name "nightfox"
-               :iterm2-preset-name "nightfox_iterm"}
-   "gruvbox" {:vim-theme-name "gruvbox"
-              :iterm2-preset-name "gruvbox-dark"}})
+(def lookup2 (edn/read-string (slurp (fs/file (fs/expand-home "~/src/sand/ts/color-lookup.edn")))))
 
 (defn echo-ctrlseq
   #_(echo-ctrlseq "nord")
@@ -49,7 +57,7 @@
   #_(sh "echo" "-e" (str "\033]1337;SetColors=preset=" preset bell))
   ;; Local tmux passthru (also works with bare iterm2)
   ;; printf "\ePtmux;\e\e]1337;SetColors=preset=gruvbox-dark\a\e\\"
-  ;; echo -e "\033Ptmux;\033\033]1337;SetColors=preset=gruvbox-dark\007\033\\"
+  ;; echo -e "\033Ptmux;\033\033]1337;SetColors=preset=nord\007\033\\"
   (sh "echo" "-e" (str "\033Ptmux;\033\033]1337;SetColors=preset=" preset "\007\033\\")))
 
 (defn update-nvim-theme
@@ -60,10 +68,26 @@
   ;; nvr --remote-send ':colorscheme nord<cr>'
   (sh "nvr" "-c" (str "colorscheme " colorscheme)))
 
+(def vim-color-file
+  "The main vimrc will source this file on startup"
+  (fs/file (fs/expand-home "~/.dotfiles/colorscheme.vim")))
+
+(defn update-vim-color-file
+  #_(update-vim-color-file vim-color-file "nord")
+  #_(update-vim-color-file vim-color-file "gruvbox")
+  [f vim-theme-name]
+  (let [s (str "colorscheme " vim-theme-name)]
+    (spit f s)))
+
+;; See https://vi.stackexchange.com/questions/8835/how-to-output-result-of-vim-commands-to-shell
+;; vim -c ':set t_ti= t_te= nomore' -c 'colorscheme|q!'
 (defn -main
   [s]
-  (let [{:keys [vim-theme-name iterm2-preset-name] :as x} (lookup s)]
-    (update-nvim-theme vim-theme-name)
-    (echo-ctrlseq iterm2-preset-name)))
+  (let [{:keys [iterm2-name vim-name]} (lookup2 s)]
+    (update-nvim-theme vim-name)
+    (update-vim-color-file vim-color-file vim-name)
+    ;; FIXME: This control sequence only works if this is called at the
+    ;; end:
+    (echo-ctrlseq iterm2-name)))
 
 (-main (first *command-line-args*))

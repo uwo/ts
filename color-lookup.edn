@@ -1,0 +1,65 @@
+{"solarized-dark"
+ {:cli-name "solarized-dark",
+  :iterm2-name "Solarized Dark",
+  :vim-name "solarized8_high"},
+ "dawnfox"
+ {:cli-name "dawnfox",
+  :iterm2-name "dawnfox_iterm",
+  :vim-name "dawnfox"},
+ "everforest-medium-dark"
+ {:cli-name "everforest-medium-dark",
+  :iterm2-name "Everforest_medium_dark",
+  :vim-name "everforest"},
+ "nord" {:cli-name "nord", :iterm2-name "nord", :vim-name "nord"},
+ "terafox"
+ {:cli-name "terafox", :iterm2-name "terafox", :vim-name "terafox"},
+ "gruvbox-light"
+ {:cli-name "gruvbox-light",
+  :iterm2-name "gruvbox-light",
+  :vim-name "gruvbox"},
+ "everforest-hard-dark"
+ {:cli-name "everforest-hard-dark",
+  :iterm2-name "Everforest_hard_dark",
+  :vim-name "everforest"},
+ "everforest-medium-light"
+ {:cli-name "everforest-medium-light",
+  :iterm2-name "Everforest_medium_light",
+  :vim-name "everforest"},
+ "everforest-hard-light"
+ {:cli-name "everforest-hard-light",
+  :iterm2-name "Everforest_hard_light",
+  :vim-name "everforest"},
+ "everforest"
+ {:cli-name "everforest",
+  :iterm2-name "Everforest_hard_dark",
+  :vim-name "everforest"},
+ "dayfox"
+ {:cli-name "dayfox", :iterm2-name "dayfox_iterm", :vim-name "dayfox"},
+ "nightfox"
+ {:cli-name "nightfox",
+  :iterm2-name "nightfox_iterm",
+  :vim-name "nightfox"},
+ "everforest-soft-dark"
+ {:cli-name "everforest-soft-dark",
+  :iterm2-name "Everforest_soft_dark",
+  :vim-name "everforest"},
+ "solarized"
+ {:cli-name "solarized",
+  :iterm2-name "Solarized Light",
+  :vim-name "solarized8_flat"},
+ "duskfox"
+ {:cli-name "duskfox",
+  :iterm2-name "duskfox_iterm",
+  :vim-name "duskfox"},
+ "everforest-soft-light"
+ {:cli-name "everforest-soft-light",
+  :iterm2-name "Everforest_soft_light",
+  :vim-name "everforest"},
+ "nordfox"
+ {:cli-name "nordfox",
+  :iterm2-name "nordfox_iterm",
+  :vim-name "nordfox"},
+ "gruvbox"
+ {:cli-name "gruvbox",
+  :iterm2-name "gruvbox-dark",
+  :vim-name "gruvbox"}}
