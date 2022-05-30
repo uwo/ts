@@ -12,7 +12,15 @@
   (str (fs/expand-home "~/.local/share/nvim/plugged/")))
 
 (defn get-all-plug-colors
-  "Return all colors that have been installed manually."
+  "Return all colors that have been installed manually.
+
+   # Failed alternative approach
+   Wanted to get the output of :colorscheme from vim, but
+   couldn't get it to work:
+
+     vim -c ':set t_ti= t_te= nomore' -c 'colorscheme|q!'
+
+   See https://vi.stackexchange.com/questions/8835/how-to-output-result-of-vim-commands-to-shell"
   #_(clojure.pprint/pprint (get-all-plug-colors plugin-dir))
   ;; fd "\bcolors\b" ~/.local/share/nvim/plugged/
   [plugin-dir]

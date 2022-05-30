@@ -3,45 +3,8 @@
 ;; # vi: ft=clojure
 
 (ns theme
-  ;; Okay, since it's looking like you can't export a new variable,
-  ;; you might try the restart everything route, but programmatically.
-  ;;
-  ;; Use a file to store the current VIM_COLOR
-  ;;
-  ;; Use vim autocommand groups to tailor colorscheme settings
-  ;;
-  ;; If you set an env variable you'll need to ensure it works
-  ;; across all shells in your tmux session
-  ;; https://stackoverflow.com/questions/20701757/tmux-setting-environment-variables-for-sessions
-  ;;
-  ;; maybe consider:
-  ;; https://git.iamthefij.com/vividboarder/shoestrap/src/commit/c14d7341378414cc7081616ec13065a94b4ff78e/assets/default/bin/get_vim_colorscheme.sh
-  ;; together with:
-  ;; https://git.iamthefij.com/vividboarder/shoestrap/src/commit/c14d7341378414cc7081616ec13065a94b4ff78e/assets/default/dotfiles/bash_profile#L73
-  ;;
-  ;;
-  ;; # Paste in your .bashrc/.zshrc
-  ;; # Change to your color presets
-  ;; # ITERM2_DARK_PRESET='OneHalfDark'
-  ;; # ITERM2_LIGHT_PRESET='OneHalfLight'
-  ;; #
+  ;; TODO: Read system dark/light setting and use to set automatically
   ;; # theme=`defaults read -g AppleInterfaceStyle` &>/dev/null
-  ;; #
-  ;; # if [ "$theme" = 'Dark' ] ; then
-  ;; #   theme='dark'
-  ;; # else
-  ;; #   theme='light'
-  ;; # fi
-  ;; #
-  ;; # if [ "$theme" = 'dark' ] ; then
-  ;; #   echo -e "\033]1337;SetColors=preset=$ITERM2_DARK_PRESET\a"
-  ;; # else
-  ;; #   echo -e "\033]1337;SetColors=preset=$ITERM2_LIGHT_PRESET\a"
-  ;; # fi
-  ;; preset=$1
-  ;; echo -e "\033]1337;SetColors=preset=$preset\a"
-
-  ;; # echo -e "\033]1337;SetColors=preset=gruvbox-dark\a"
   (:require [clojure.java.shell :refer [sh]]
             [clojure.edn :as edn]
             [babashka.fs :as fs]))
@@ -79,8 +42,6 @@
   (let [s (str "colorscheme " vim-theme-name)]
     (spit f s)))
 
-;; See https://vi.stackexchange.com/questions/8835/how-to-output-result-of-vim-commands-to-shell
-;; vim -c ':set t_ti= t_te= nomore' -c 'colorscheme|q!'
 (defn -main
   [s]
   (let [{:keys [iterm2-name vim-name]} (lookup2 s)]
