@@ -81,6 +81,7 @@
     ;; [cli-name iterm2-name vim-name]
     [["dawnfox" "dawnfox_iterm" "dawnfox"]
      ["nord" "nord" "nord"]
+     ["tokyonight" "iterm_tokyonight_night" "tokyonight"]
      ["terafox" "terafox" "terafox"]
      ["gruvbox-light" "gruvbox-light" "gruvbox"]
      ["gruvbox" "gruvbox-dark" "gruvbox"]
@@ -95,7 +96,7 @@
      ["dayfox" "dayfox_iterm" "dayfox"]
      ["solarized" "Solarized Light" "solarized8_flat"]
      ["duskfox" "duskfox_iterm" "duskfox"]
-     ["solarized-dark" "Solarized Dark" "solarized8_high"]
+     ["solarized-dark" "Solarized Dark" "solarized8"]
      ["nordfox" "nordfox_iterm" "nordfox"]]
     (reduce (fn [acc [cli-name iterm2-name vim-name]]
               (let [m {:cli-name cli-name

@@ -5,6 +5,8 @@
 (ns theme
   ;; TODO: Read system dark/light setting and use to set automatically
   ;; # theme=`defaults read -g AppleInterfaceStyle` &>/dev/null
+  ;; -- then write :set background= in colorscheme.vim file
+  ;; TODO: Choose matching BAT_THEME
   (:require [clojure.java.shell :refer [sh]]
             [clojure.edn :as edn]
             [babashka.fs :as fs]))

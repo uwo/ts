@@ -1,7 +1,7 @@
 {"solarized-dark"
  {:cli-name "solarized-dark",
   :iterm2-name "Solarized Dark",
-  :vim-name "solarized8_high"},
+  :vim-name "solarized8"},
  "dawnfox"
  {:cli-name "dawnfox",
   :iterm2-name "dawnfox_iterm",
@@ -25,6 +25,10 @@
  {:cli-name "everforest-medium-light",
   :iterm2-name "Everforest_medium_light",
   :vim-name "everforest"},
+ "tokyonight"
+ {:cli-name "tokyonight",
+  :iterm2-name "iterm_tokyonight_night",
+  :vim-name "tokyonight"},
  "everforest-hard-light"
  {:cli-name "everforest-hard-light",
   :iterm2-name "Everforest_hard_light",
