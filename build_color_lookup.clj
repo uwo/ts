@@ -11,6 +11,18 @@
 (def plugin-dir
   (str (fs/expand-home "~/.local/share/nvim/plugged/")))
 
+(defn filename-colors
+  "Return one or more colorscheme names based on color files in the
+   given directory."
+  #_(dirname-colors "/Users/lake/.local/share/nvim/plugged/everforest/colors")
+  #_(dirname-colors "/Users/lake/.local/share/nvim/plugged/nightfox.nvim/colors")
+  [dir]
+  (->> (fs/list-dir dir)
+       (map fs/file-name)
+       (map (fn [f]
+              (let [[n _] (fs/split-ext f)]
+                n)))))
+
 (defn get-all-plug-colors
   "Return all colors that have been installed manually.
 
@@ -29,11 +41,9 @@
             :out
             (str/split #"\n"))]
     (->> installed-color-dirs
-         (mapcat fs/list-dir)
-         (map fs/file-name)
-         (map (fn [f]
-                (let [[n _] (fs/split-ext f)]
-                  n))))))
+         (remove #(re-find #"orgmode" %))
+         (filter fs/directory?)
+         (mapcat #(filename-colors %)))))
 
 (def plist-filepath
   "Location of presets"
