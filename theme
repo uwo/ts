@@ -35,7 +35,7 @@
 
 (def vim-color-file
   "The main vimrc will source this file on startup"
-  (fs/file (fs/expand-home "~/.dotfiles/colorscheme.vim")))
+  (fs/file (fs/expand-home "~/.config/nvim/colorscheme.vim")))
 
 (defn update-vim-color-file
   #_(update-vim-color-file vim-color-file "nord")
@@ -46,6 +46,7 @@
 
 (defn -main
   [s]
+  ;; TODO: add --help option and print available colorschemes
   (let [{:keys [iterm2-name vim-name]} (lookup2 s)]
     (update-nvim-theme vim-name)
     (update-vim-color-file vim-color-file vim-name)
